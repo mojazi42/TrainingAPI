@@ -1,7 +1,7 @@
 ﻿namespace TrainingAPI.Models
 {
 
-    public enum MatricType
+    public enum MetricType
     {
         Reps,
         Duration
@@ -14,7 +14,7 @@
         public string Name { get; set; } = string.Empty;
 
         //Which type of metric = Reps or Duration
-        public MatricType MatricType { get; set; }
+        public MetricType MetricType { get; set; }
 
         public int? RepsCount { get; set; }
         public int? DurationSeconds { get; set; }

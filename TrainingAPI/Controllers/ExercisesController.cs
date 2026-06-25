@@ -41,7 +41,7 @@ namespace TrainingAPI.Controllers
         {
             var exercise = exercises.FirstOrDefault(e => e.Id == id);
 
-            if(exercise is null)
+            if (exercise is null)
             {
                 return NotFound();
             }
@@ -52,8 +52,48 @@ namespace TrainingAPI.Controllers
         [HttpPost]
         public IActionResult CreateExercise([FromBody] Exercise exercise)
         {
+
+            int newId = exercises.Count == 0 ? 1 : exercises.Max(e => e.Id) + 1;
+            exercise.Id = newId;
             exercises.Add(exercise);
             return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateExercise(int id, [FromBody] Exercise updateExercises)
+        {
+            var exercise = exercises.FirstOrDefault(e => e.Id == id);
+
+            if (exercise is null)
+            {
+                return NotFound();
+            }
+
+            exercise.Name = updateExercises.Name;
+            exercise.MetricType = updateExercises.MetricType;
+            exercise.RepsCount = updateExercises.RepsCount;
+            exercise.DurationSeconds = updateExercises.DurationSeconds;
+
+
+            return NoContent();
+
+
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteExercise(int id)
+        {
+            var exercise = exercises.FirstOrDefault(e => e.Id == id);
+
+            if(exercise is null)
+            {
+                return NotFound();
+            }
+
+            exercises.Remove(exercise);
+
+            return NoContent();
         }
     }
 }

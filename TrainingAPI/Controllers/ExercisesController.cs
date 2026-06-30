@@ -62,6 +62,7 @@ namespace TrainingAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateExercise(int id, [FromBody] Exercise updateExercises)
         {
+
             var exercise = exercises.FirstOrDefault(e => e.Id == id);
 
             if (exercise is null)
@@ -79,8 +80,6 @@ namespace TrainingAPI.Controllers
 
 
         }
-
-
         [HttpDelete("{id}")]
         public IActionResult DeleteExercise(int id)
         {

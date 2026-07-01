@@ -118,6 +118,7 @@ namespace TrainingAPI.Controllers
 
 
             return NoContent();
+
         }
     }
 }

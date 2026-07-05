@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainingAPI.Data;
 using TrainingAPI.Models;
+using TrainingAPI.Services;
 
 namespace TrainingAPI.Controllers
 {
@@ -32,17 +33,17 @@ namespace TrainingAPI.Controllers
         //};
 
 
-        private readonly TrainingDbContext _context;
+        private readonly IExerciseService _exerciseService;
 
-        public ExercisesController(TrainingDbContext context)
+        public ExercisesController(IExerciseService exerciseService)
         {
-            _context =  context;
+            _exerciseService = exerciseService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var exercises = _context.Exercises;// the way when using database
+            var exercises = _exerciseService.GetAll();// the way when using database
 
             return Ok(exercises);
         }
@@ -51,74 +52,78 @@ namespace TrainingAPI.Controllers
         public IActionResult GetById(int id)
         {
             //var exercise = exercises.FirstOrDefault(e => e.Id == id); when using list in memory
-            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id); // when using the database
+            var exercise = _exerciseService.GetById(id); // when using the database
 
             if (exercise is null)
             {
                 return NotFound();
             }
 
-            return Ok(exercise);
+            return Ok(exercise); 
         }
 
         [HttpPost]
         public IActionResult CreateExercise([FromBody] Exercise exercise)
         {
             // When using the list in memory
-/*            int newId = exercises.Count == 0 ? 1 : exercises.Max(e => e.Id) + 1;
-            exercise.Id = newId;
-            exercises.Add(exercise);*/
+            /*            int newId = exercises.Count == 0 ? 1 : exercises.Max(e => e.Id) + 1;
+                        exercise.Id = newId;
+                        exercises.Add(exercise);*/
 
 
-            //When using database
-            _context.Exercises.Add(exercise);
-            _context.SaveChanges();
+            //When using database without service layer
+            //_context.Exercises.Add(exercise);
+            //_context.SaveChanges();
+
+
+            var exerciseAdd = _exerciseService.CreateExercise(exercise);
 
 
 
 
-            return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
+            return CreatedAtAction(nameof(GetById), new { id = exerciseAdd.Id }, exerciseAdd);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateExercise(int id, [FromBody] Exercise updateExercises)
-        {
+        //        [HttpPut("{id}")]
+        //        public IActionResult UpdateExercise(int id, [FromBody] Exercise updateExercises)
+        //        {
 
-            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
+        //            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
 
-            if (exercise is null)
-            {
-                return NotFound();
-            }
+        //            if (exercise is null)
+        //            {
+        //                return NotFound();
+        //            }
 
-            exercise.Name = updateExercises.Name;
-            exercise.MetricType = updateExercises.MetricType;
-            exercise.RepsCount = updateExercises.RepsCount;
-            exercise.DurationSeconds = updateExercises.DurationSeconds;
+        //            exercise.Name = updateExercises.Name;
+        //            exercise.MetricType = updateExercises.MetricType;
+        //            exercise.RepsCount = updateExercises.RepsCount;
+        //            exercise.DurationSeconds = updateExercises.DurationSeconds;
 
-            _context.SaveChanges();
-
-
-            return NoContent();
+        //            _context.SaveChanges();
 
 
-        }
-        [HttpDelete("{id}")]
-        public IActionResult DeleteExercise(int id)
-        {
-            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
-
-            if(exercise is null)
-            {
-                return NotFound();
-            }
-
-            _context.Exercises.Remove(exercise);
-            _context.SaveChanges();
+        //            return NoContent();
 
 
-            return NoContent();
+        //        }
+        //        [HttpDelete("{id}")]
+        //        public IActionResult DeleteExercise(int id)
+        //        {
+        //            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
 
-        }
+        //            if(exercise is null)
+        //            {
+        //                return NotFound();
+        //            }
+
+        //            _context.Exercises.Remove(exercise);
+        //            _context.SaveChanges();
+
+
+        //            return NoContent();
+
+        //        }
+        //    }
     }
-}
+    }

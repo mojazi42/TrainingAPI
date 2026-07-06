@@ -10,8 +10,8 @@ namespace TrainingAPI.Services
 
         Exercise? CreateExercise(Exercise exercise);
 
-        //void UpdateExercise(int id, Exercise updateExercises);
+        Exercise? UpdateExercise(int id, Exercise updateExercises);
 
-        //void DeleteExercise(int id);
+        Exercise? DeleteExercise(int id);
     }
 }

@@ -78,9 +78,6 @@ namespace TrainingAPI.Controllers
 
             var exerciseAdd = _exerciseService.CreateExercise(exercise);
 
-
-
-
             return CreatedAtAction(nameof(GetById), new { id = exerciseAdd.Id }, exerciseAdd);
         }
 
@@ -103,7 +100,6 @@ namespace TrainingAPI.Controllers
 
             //_context.SaveChanges();
 
-
             return NoContent();
 
 
@@ -117,9 +113,6 @@ namespace TrainingAPI.Controllers
             {
                 return NotFound();
             }
-
-
-
 
             return NoContent();
 

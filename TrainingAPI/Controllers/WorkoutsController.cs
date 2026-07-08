@@ -49,5 +49,32 @@ namespace TrainingAPI.Controllers
 
 
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateWorkout(int id, [FromBody] Workout workout)
+        {
+            var exercise = _workoutService.UpdateWorkout(id, workout);
+
+            if(exercise is null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteWorkout(int id)
+        {
+            var exercise = _workoutService.DeleteWorkout(id);
+
+            if(exercise is null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+
+        }
     }
 }

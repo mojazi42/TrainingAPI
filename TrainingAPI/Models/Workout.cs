@@ -8,7 +8,7 @@ namespace TrainingAPI.Models
 
         [Required]
         [MaxLength(100)]
-       public  string Name { get; set; } = string.Empty;
+        public  string Name { get; set; } = string.Empty;
 
 
         public DateTime Date { get; set; }

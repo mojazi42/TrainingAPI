@@ -11,7 +11,9 @@ namespace TrainingAPI.Services
 
         public ExerciseService(TrainingDbContext context)
         {
+
             _context = context;
+
         }
 
         public List<Exercise> GetAll() => _context.Exercises.ToList();

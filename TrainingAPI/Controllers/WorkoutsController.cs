@@ -63,6 +63,7 @@ namespace TrainingAPI.Controllers
             return NoContent();
         }
 
+
         [HttpDelete("{id}")]
         public IActionResult DeleteWorkout(int id)
         {

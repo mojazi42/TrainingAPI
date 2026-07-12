@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TrainingAPI.DTOs;
 using TrainingAPI.Models;
 using TrainingAPI.Services;
 
@@ -39,11 +40,14 @@ namespace TrainingAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateWorkout([FromBody] Workout workout)
+        public IActionResult CreateWorkout([FromBody] CreateWorkoutDto dto)
         {
-            workout.Date = DateTime.Now;
-            var workoutAdd = _workoutService.CreateWorkout(workout);
+            //workout.Date = DateTime.Now;
+            var workoutAdd = _workoutService.CreateWorkout(dto);
+            if (workoutAdd is null)
+                return NotFound();
 
+            
 
             return CreatedAtAction(nameof(GetById), new {id = workoutAdd.Id}, workoutAdd);
 

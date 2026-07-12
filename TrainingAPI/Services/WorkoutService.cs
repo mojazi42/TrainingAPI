@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using TrainingAPI.Data;
+using TrainingAPI.DTOs;
 using TrainingAPI.Models;
 
 namespace TrainingAPI.Services
@@ -14,10 +16,27 @@ namespace TrainingAPI.Services
         }
         public List<Workout> GetAll() => _context.Workouts.ToList();
 
-        public Workout? GetById(int Id) => _context.Workouts.FirstOrDefault(w => w.Id == Id);
+        public Workout? GetById(int Id)
+        { //=> _context.Workouts.FirstOrDefault(w => w.Id == Id);
+            var getId = _context.Workouts
+                .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise)
+                .Include(we => we.WorkoutExercises)
+                    .ThenInclude(we => we.Sets)
 
-        public Workout? CreateWorkout(Workout workout)
+                .FirstOrDefault(w => w.Id == Id);
+
+            return getId;
+        }
+
+        public Workout? CreateWorkout(CreateWorkoutDto dto)
         {
+
+            var workout = new Workout
+            {
+                Name = dto.Name,
+                Date = DateTime.Now
+            };
             _context.Workouts.Add(workout);
             _context.SaveChanges();
             return workout;

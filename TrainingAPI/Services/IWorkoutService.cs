@@ -1,4 +1,5 @@
-﻿using TrainingAPI.Models;
+﻿using TrainingAPI.DTOs;
+using TrainingAPI.Models;
 
 namespace TrainingAPI.Services
 {
@@ -8,9 +9,9 @@ namespace TrainingAPI.Services
 
         Workout? GetById(int id);
 
-        Workout? CreateWorkout(Workout workout);
+        Workout? CreateWorkout(CreateWorkoutDto workout);
 
-        Workout? UpdateWorkout(int id,Workout workout);
+        Workout? UpdateWorkout(int id, Workout workout);
 
         Workout? DeleteWorkout(int id);
 

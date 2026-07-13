@@ -9,11 +9,13 @@ namespace TrainingAPI.Services
 
         Workout? GetById(int id);
 
-        Workout? CreateWorkout(CreateWorkoutDto workout);
+        Workout? CreateWorkout(CreateWorkoutDto dto);
 
-        Workout? UpdateWorkout(int id, Workout workout);
+        Workout? UpdateWorkout(int id, CreateWorkoutDto dto);
 
         Workout? DeleteWorkout(int id);
+
+        WorkoutExercise? AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto);
 
     }
 }

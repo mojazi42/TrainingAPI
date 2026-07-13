@@ -104,6 +104,7 @@ namespace TrainingAPI.Controllers
 
 
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteExercise(int id)
         {

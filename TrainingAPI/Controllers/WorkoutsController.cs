@@ -55,9 +55,9 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateWorkout(int id, [FromBody] Workout workout)
+        public IActionResult UpdateWorkout(int id, [FromBody] CreateWorkoutDto dto)
         {
-            var exercise = _workoutService.UpdateWorkout(id, workout);
+            var exercise = _workoutService.UpdateWorkout(id, dto);
 
             if(exercise is null)
             {
@@ -80,6 +80,25 @@ namespace TrainingAPI.Controllers
 
             return NoContent();
 
+        }
+
+
+
+
+
+        [HttpPost("{workoutId}/exercises")]
+        public IActionResult AddWorkoutToExercise(int workoutId,[FromBody] AddExerciseToWorkoutDto dto)
+        {
+            //workout.Date = DateTime.Now;
+            //var workout = _workoutService.GetById(workoutId);
+            
+
+            var addExerciseToWorkout = _workoutService.AddExerciseToWorkout(workoutId, dto);
+            if (addExerciseToWorkout is null)
+                return NotFound();
+
+            //var workoutAdd = _workoutService.CreateWorkout(dto);
+            return Ok(addExerciseToWorkout);
         }
     }
 }

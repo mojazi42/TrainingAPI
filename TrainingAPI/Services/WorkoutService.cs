@@ -43,7 +43,7 @@ namespace TrainingAPI.Services
         }
 
 
-        public Workout? UpdateWorkout(int id, Workout workout)
+        public Workout? UpdateWorkout(int id, CreateWorkoutDto dto)
         {
             var oldWorkout = _context.Workouts.FirstOrDefault(w => w.Id == id);
 
@@ -52,7 +52,7 @@ namespace TrainingAPI.Services
                 return null;
             }
 
-            oldWorkout.Name = workout.Name;
+            oldWorkout.Name = dto.Name;
 
             _context.SaveChanges();
             return oldWorkout;
@@ -61,12 +61,37 @@ namespace TrainingAPI.Services
         public Workout? DeleteWorkout(int id)
         {
             var workout = _context.Workouts.FirstOrDefault(w => w.Id == id);
-
+            if (workout is null)
+            {
+                return null;
+            }
             _context.Workouts.Remove(workout);
 
             _context.SaveChanges();
             return workout;
-        } 
-        
+        }
+
+         public WorkoutExercise? AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto)
+        {
+            var workout = _context.Workouts.FirstOrDefault(w => w.Id == workoutId);
+
+            if (workout is null)
+            {
+                return null;
+            }
+
+            var exerciseToWorkout = new WorkoutExercise
+            {
+                WorkoutId = workoutId,
+                ExerciseId = dto.ExerciseId
+            };
+
+            _context.WorkoutExercises.Add(exerciseToWorkout);
+            _context.SaveChanges();
+
+            return exerciseToWorkout;
+
+        }
     }
+
 }

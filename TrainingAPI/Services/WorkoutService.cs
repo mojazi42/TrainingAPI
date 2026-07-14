@@ -79,19 +79,25 @@ namespace TrainingAPI.Services
             {
                 return null;
             }
+            var existedWorkout = _context.WorkoutExercises.FirstOrDefault(we => we.ExerciseId == dto.ExerciseId && we.WorkoutId == workoutId);
 
-            var exerciseToWorkout = new WorkoutExercise
+            if (existedWorkout is null)
             {
-                WorkoutId = workoutId,
-                ExerciseId = dto.ExerciseId
-            };
+                var exerciseToWorkout = new WorkoutExercise
+                {
+                    WorkoutId = workoutId,
+                    ExerciseId = dto.ExerciseId
+                };
 
-            _context.WorkoutExercises.Add(exerciseToWorkout);
-            _context.SaveChanges();
+                _context.WorkoutExercises.Add(exerciseToWorkout);
+                _context.SaveChanges();
 
-            return exerciseToWorkout;
-
+                return exerciseToWorkout;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
-
 }

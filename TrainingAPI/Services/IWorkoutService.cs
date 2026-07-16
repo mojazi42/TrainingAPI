@@ -7,7 +7,7 @@ namespace TrainingAPI.Services
     {
         List<Workout> GetAll();
 
-        Workout? GetById(int id);
+        WorkoutResponseDto? GetById(int id);
 
         Workout? CreateWorkout(CreateWorkoutDto dto);
 

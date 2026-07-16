@@ -16,8 +16,9 @@ namespace TrainingAPI.Services
         }
         public List<Workout> GetAll() => _context.Workouts.ToList();
 
-        public Workout? GetById(int Id)
+        public WorkoutResponseDto? GetById(int Id)
         { //=> _context.Workouts.FirstOrDefault(w => w.Id == Id);
+
             var getId = _context.Workouts
                 .Include(w => w.WorkoutExercises)
                     .ThenInclude(we => we.Exercise)
@@ -26,6 +27,16 @@ namespace TrainingAPI.Services
 
                 .FirstOrDefault(w => w.Id == Id);
 
+            if (getId != null)
+                return null;
+            
+            //return new WorkoutResponseDto
+            //{
+            //    Id = getId.Id,
+            //    Name = 
+            //}
+
+            
             return getId;
         }
 

@@ -14,6 +14,7 @@ namespace TrainingAPI.Services
         {
             _context = context;
         }
+
         public List<Workout> GetAll() => _context.Workouts.ToList();
 
         public WorkoutResponseDto? GetById(int Id)
@@ -24,20 +25,26 @@ namespace TrainingAPI.Services
                     .ThenInclude(we => we.Exercise)
                 .Include(we => we.WorkoutExercises)
                     .ThenInclude(we => we.Sets)
-
                 .FirstOrDefault(w => w.Id == Id);
 
-            if (getId != null)
-                return null;
-            
-            //return new WorkoutResponseDto
-            //{
-            //    Id = getId.Id,
-            //    Name = 
-            //}
 
-            
-            return getId;
+            if (getId is null)
+                return null;
+
+            return new WorkoutResponseDto
+            {
+                Id = getId.Id,
+                Name = getId.Name,
+                Date = getId.Date,
+                Exercises = getId.WorkoutExercises
+                        .Select(we => new ExerciseResponseDto
+                        {
+                            Id = we.Exercise.Id,
+                            Name = we.Exercise.Name,
+                        }
+
+                        ).ToList()
+            };
         }
 
         public Workout? CreateWorkout(CreateWorkoutDto dto)

@@ -117,5 +117,30 @@ namespace TrainingAPI.Services
                 return null;
             }
         }
+
+
+        public Set? LogSet(int workoutId, int exerciseId, LogSetDto dto)
+        {
+            var workoutExercise = _context.WorkoutExercises
+                .FirstOrDefault(we => we.WorkoutId == workoutId && we.ExerciseId == exerciseId);
+
+            if (workoutExercise is null)
+                return null;
+
+
+            var set = new Set
+            {
+                WorkoutExerciseId = workoutExercise.Id,
+                SetNumber = dto.SetNumber,
+                RepsCount = dto.RepsCount,
+                DurationSeconds = dto.DurationSeconds
+
+            };
+
+            _context.Sets.Add(set);
+            _context.SaveChanges();
+            return set;
+                
+        }
     }
 }

@@ -17,5 +17,7 @@ namespace TrainingAPI.Services
 
         WorkoutExercise? AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto);
 
+        Set? LogSet(int workoutId, int exerciseId, LogSetDto dto);
+
     }
 }

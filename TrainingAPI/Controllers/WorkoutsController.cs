@@ -100,5 +100,18 @@ namespace TrainingAPI.Controllers
             //var workoutAdd = _workoutService.CreateWorkout(dto);
             return Ok(addExerciseToWorkout);
         }
+
+
+
+        [HttpPost("{workoutId}/exercises/{exerciseId}/sets")]
+        public IActionResult AddSet(int workoutId, int exerciseId, [FromBody] LogSetDto dto)
+        {
+            var addSet = _workoutService.LogSet(workoutId, exerciseId, dto);
+            if (addSet is null)
+                return NotFound();
+
+            return Ok(addSet);
+        }
+       
     }
 }

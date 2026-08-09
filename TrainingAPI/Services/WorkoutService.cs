@@ -41,9 +41,17 @@ namespace TrainingAPI.Services
                         {
                             Id = we.Exercise.Id,
                             Name = we.Exercise.Name,
+                            Sets = we.Sets.Select(s => new SetResponseDto
+                            {
+                                SetNumber = s.SetNumber,
+                                RepsCount = s.RepsCount,
+                                DurationSeconds = s.DurationSeconds,
+                            }
+                            ).ToList()
                         }
 
-                        ).ToList()
+                        ).ToList(),
+               
             };
         }
 

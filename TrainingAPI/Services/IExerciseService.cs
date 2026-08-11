@@ -1,14 +1,15 @@
-﻿using TrainingAPI.Models;
+﻿using TrainingAPI.DTOs;
+using TrainingAPI.Models;
 
 namespace TrainingAPI.Services
 {
     public interface IExerciseService
     {
-        List<Exercise> GetAll();
+        List<ExerciseDetailDto> GetAll();
 
-        Exercise? GetById(int id);
+        ExerciseDetailDto? GetById(int id);
 
-        Exercise? CreateExercise(Exercise exercise);
+        ExerciseDetailDto? CreateExercise(Exercise exercise);
 
         Exercise? UpdateExercise(int id, Exercise updateExercises);
 

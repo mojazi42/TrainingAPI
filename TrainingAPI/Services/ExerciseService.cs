@@ -102,6 +102,7 @@ namespace TrainingAPI.Services
 
             return exercise;
 
+
         }
     }
 }

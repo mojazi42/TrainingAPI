@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrainingAPI.Data;
+using TrainingAPI.DTOs;
 using TrainingAPI.Models;
 using TrainingAPI.Services;
 
@@ -41,9 +42,10 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var exercises = _exerciseService.GetAll();// the way when using database
+            
+            var exercises = await _exerciseService.GetAll();// the way when using database
 
             return Ok(exercises);
         }
@@ -63,7 +65,7 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateExercise([FromBody] Exercise exercise)
+        public IActionResult CreateExercise([FromBody] CreateExerciseDto dto)
         {
             // When using the list in memory
             /*            int newId = exercises.Count == 0 ? 1 : exercises.Max(e => e.Id) + 1;
@@ -74,9 +76,14 @@ namespace TrainingAPI.Controllers
             //When using database without service layer
             //_context.Exercises.Add(exercise);
             //_context.SaveChanges();
+         
 
+            var exerciseAdd = _exerciseService.CreateExercise(dto);
 
-            var exerciseAdd = _exerciseService.CreateExercise(exercise);
+            if(exerciseAdd is null)
+            {
+                return BadRequest();
+            }
 
             return CreatedAtAction(nameof(GetById), new { id = exerciseAdd.Id }, exerciseAdd);
         }

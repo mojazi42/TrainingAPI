@@ -5,11 +5,11 @@ namespace TrainingAPI.Services
 {
     public interface IExerciseService
     {
-        List<ExerciseDetailDto> GetAll();
+        Task<List<ExerciseDetailDto>> GetAll();
 
         ExerciseDetailDto? GetById(int id);
 
-        ExerciseDetailDto? CreateExercise(Exercise exercise);
+        ExerciseDetailDto? CreateExercise(CreateExerciseDto dto);
 
         Exercise? UpdateExercise(int id, Exercise updateExercises);
 

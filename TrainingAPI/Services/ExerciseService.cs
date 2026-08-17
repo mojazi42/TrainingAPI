@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using TrainingAPI.Data;
 using TrainingAPI.DTOs;
 using TrainingAPI.Models;
@@ -17,8 +18,8 @@ namespace TrainingAPI.Services
 
         }
 
-        public List<ExerciseDetailDto> GetAll(){
-            return _context.Exercises
+        public async Task<List<ExerciseDetailDto>> GetAll(){
+            return await _context.Exercises
                 .Select(e => new ExerciseDetailDto
                 {
                     Id = e.Id,
@@ -27,7 +28,7 @@ namespace TrainingAPI.Services
                     RepsCount = e.RepsCount,
                     DurationSeconds = e.DurationSeconds,
                 }
-                ).ToList();
+                ).ToListAsync();
 
         }
 
@@ -52,17 +53,24 @@ namespace TrainingAPI.Services
 
         
 
-        public ExerciseDetailDto? CreateExercise(Exercise exercise)
+        public ExerciseDetailDto? CreateExercise(CreateExerciseDto dto)
         {
+            var exercise = new Exercise
+            {
+                Name = dto.Name,
+                MetricType = dto.MetricType,
+                RepsCount = dto.RepsCount,
+                DurationSeconds = dto.DurationSeconds
+            };
             _context.Exercises.Add(exercise);
             _context.SaveChanges();
             return  new ExerciseDetailDto
             {
                 Id = exercise.Id,
                 Name = exercise.Name,
-                DurationSeconds = exercise.DurationSeconds,
                 MetricType = exercise.MetricType,
                 RepsCount = exercise.RepsCount,
+                DurationSeconds = exercise.DurationSeconds,
             };
         }
 

@@ -18,17 +18,17 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var exercises = _workoutService.GetAll();
+            var exercises = await _workoutService.GetAll();
 
             return Ok(exercises);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var workout = _workoutService.GetById(id);
+            var workout = await _workoutService.GetById(id);
 
             if(workout is null)
             {
@@ -40,10 +40,10 @@ namespace TrainingAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateWorkout([FromBody] CreateWorkoutDto dto)
+        public async Task<IActionResult> CreateWorkout([FromBody] CreateWorkoutDto dto)
         {
             //workout.Date = DateTime.Now;
-            var workoutAdd = _workoutService.CreateWorkout(dto);
+            var workoutAdd = await _workoutService.CreateWorkout(dto);
             if (workoutAdd is null)
                 return NotFound();
 
@@ -55,9 +55,9 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateWorkout(int id, [FromBody] CreateWorkoutDto dto)
+        public async Task<IActionResult> UpdateWorkout(int id, [FromBody] CreateWorkoutDto dto)
         {
-            var exercise = _workoutService.UpdateWorkout(id, dto);
+            var exercise = await _workoutService.UpdateWorkout(id, dto);
 
             if(exercise is null)
             {
@@ -69,9 +69,9 @@ namespace TrainingAPI.Controllers
 
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteWorkout(int id)
+        public async Task<IActionResult> DeleteWorkout(int id)
         {
-            var exercise = _workoutService.DeleteWorkout(id);
+            var exercise = await _workoutService.DeleteWorkout(id);
 
             if(exercise is null)
             {
@@ -87,13 +87,13 @@ namespace TrainingAPI.Controllers
 
 
         [HttpPost("{workoutId}/exercises")]
-        public IActionResult AddWorkoutToExercise(int workoutId,[FromBody] AddExerciseToWorkoutDto dto)
+        public async Task<IActionResult> AddWorkoutToExercise(int workoutId,[FromBody] AddExerciseToWorkoutDto dto)
         {
             //workout.Date = DateTime.Now;
             //var workout = _workoutService.GetById(workoutId);
             
 
-            var addExerciseToWorkout = _workoutService.AddExerciseToWorkout(workoutId, dto);
+            var addExerciseToWorkout = await _workoutService.AddExerciseToWorkout(workoutId, dto);
             if (addExerciseToWorkout is null)
                 return NotFound();
 
@@ -104,9 +104,9 @@ namespace TrainingAPI.Controllers
 
 
         [HttpPost("{workoutId}/exercises/{exerciseId}/sets")]
-        public IActionResult AddSet(int workoutId, int exerciseId, [FromBody] LogSetDto dto)
+        public async Task<IActionResult> AddSet(int workoutId, int exerciseId, [FromBody] LogSetDto dto)
         {
-            var addSet = _workoutService.LogSet(workoutId, exerciseId, dto);
+            var addSet = await _workoutService.LogSet(workoutId, exerciseId, dto);
             if (addSet is null)
                 return NotFound();
 

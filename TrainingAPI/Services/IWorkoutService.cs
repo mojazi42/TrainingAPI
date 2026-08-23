@@ -5,19 +5,19 @@ namespace TrainingAPI.Services
 {
     public interface IWorkoutService
     {
-        List<Workout> GetAll();
+        Task<List<Workout>> GetAll();
 
-        WorkoutResponseDto? GetById(int id);
+        Task<WorkoutResponseDto?> GetById(int id);
 
-        Workout? CreateWorkout(CreateWorkoutDto dto);
+        Task<Workout?> CreateWorkout(CreateWorkoutDto dto);
 
-        Workout? UpdateWorkout(int id, CreateWorkoutDto dto);
+        Task<Workout?> UpdateWorkout(int id, CreateWorkoutDto dto);
 
-        Workout? DeleteWorkout(int id);
+        Task<Workout?> DeleteWorkout(int id);
 
-        WorkoutExercise? AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto);
+        Task<WorkoutExercise?> AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto);
 
-        Set? LogSet(int workoutId, int exerciseId, LogSetDto dto);
+        Task<Set?> LogSet(int workoutId, int exerciseId, LogSetDto dto);
 
     }
 }

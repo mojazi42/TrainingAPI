@@ -7,12 +7,12 @@ namespace TrainingAPI.Services
     {
         Task<List<ExerciseDetailDto>> GetAll();
 
-        ExerciseDetailDto? GetById(int id);
+        Task<ExerciseDetailDto?> GetById(int id);
 
-        ExerciseDetailDto? CreateExercise(CreateExerciseDto dto);
+        Task <ExerciseDetailDto?> CreateExercise(CreateExerciseDto dto);
 
-        Exercise? UpdateExercise(int id, Exercise updateExercises);
+        Task <ExerciseDetailDto?> UpdateExercise(int id, CreateExerciseDto updateExercises);
 
-        Exercise? DeleteExercise(int id);
+        Task <Exercise?> DeleteExercise(int id);
     }
 }

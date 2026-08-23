@@ -15,17 +15,17 @@ namespace TrainingAPI.Services
             _context = context;
         }
 
-        public List<Workout> GetAll() => _context.Workouts.ToList();
+        public async Task<List<Workout>> GetAll() => await _context.Workouts.ToListAsync();
 
-        public WorkoutResponseDto? GetById(int Id)
+        public async  Task<WorkoutResponseDto?> GetById(int Id)
         { //=> _context.Workouts.FirstOrDefault(w => w.Id == Id);
 
-            var getId = _context.Workouts
+            var getId = await _context.Workouts
                 .Include(w => w.WorkoutExercises)
                     .ThenInclude(we => we.Exercise)
                 .Include(we => we.WorkoutExercises)
                     .ThenInclude(we => we.Sets)
-                .FirstOrDefault(w => w.Id == Id);
+                .FirstOrDefaultAsync(w => w.Id == Id);
 
 
             if (getId is null)
@@ -55,7 +55,7 @@ namespace TrainingAPI.Services
             };
         }
 
-        public Workout? CreateWorkout(CreateWorkoutDto dto)
+        public async Task<Workout?> CreateWorkout(CreateWorkoutDto dto)
         {
 
             var workout = new Workout
@@ -64,14 +64,14 @@ namespace TrainingAPI.Services
                 Date = DateTime.Now
             };
             _context.Workouts.Add(workout);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return workout;
         }
 
 
-        public Workout? UpdateWorkout(int id, CreateWorkoutDto dto)
+        public async Task<Workout?> UpdateWorkout(int id, CreateWorkoutDto dto)
         {
-            var oldWorkout = _context.Workouts.FirstOrDefault(w => w.Id == id);
+            var oldWorkout = await _context.Workouts.FirstOrDefaultAsync(w => w.Id == id);
 
             if (oldWorkout is null)
             {
@@ -80,32 +80,32 @@ namespace TrainingAPI.Services
 
             oldWorkout.Name = dto.Name;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return oldWorkout;
         }
 
-        public Workout? DeleteWorkout(int id)
+        public async Task<Workout?> DeleteWorkout(int id)
         {
-            var workout = _context.Workouts.FirstOrDefault(w => w.Id == id);
+            var workout = await _context.Workouts.FirstOrDefaultAsync(w => w.Id == id);
             if (workout is null)
             {
                 return null;
             }
             _context.Workouts.Remove(workout);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return workout;
         }
 
-         public WorkoutExercise? AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto)
+         public async Task<WorkoutExercise?> AddExerciseToWorkout(int workoutId, AddExerciseToWorkoutDto dto)
         {
-            var workout = _context.Workouts.FirstOrDefault(w => w.Id == workoutId);
+            var workout = await _context.Workouts.FirstOrDefaultAsync(w => w.Id == workoutId);
 
             if (workout is null)
             {
                 return null;
             }
-            var existedWorkout = _context.WorkoutExercises.FirstOrDefault(we => we.ExerciseId == dto.ExerciseId && we.WorkoutId == workoutId);
+            var existedWorkout = await _context.WorkoutExercises.FirstOrDefaultAsync(we => we.ExerciseId == dto.ExerciseId && we.WorkoutId == workoutId);
 
             if (existedWorkout is null)
             {
@@ -116,7 +116,7 @@ namespace TrainingAPI.Services
                 };
 
                 _context.WorkoutExercises.Add(exerciseToWorkout);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return exerciseToWorkout;
             }
@@ -127,10 +127,10 @@ namespace TrainingAPI.Services
         }
 
 
-        public Set? LogSet(int workoutId, int exerciseId, LogSetDto dto)
+        public async  Task<Set?> LogSet(int workoutId, int exerciseId, LogSetDto dto)
         {
-            var workoutExercise = _context.WorkoutExercises
-                .FirstOrDefault(we => we.WorkoutId == workoutId && we.ExerciseId == exerciseId);
+            var workoutExercise = await _context.WorkoutExercises
+                .FirstOrDefaultAsync(we => we.WorkoutId == workoutId && we.ExerciseId == exerciseId);
 
             if (workoutExercise is null)
                 return null;
@@ -146,7 +146,7 @@ namespace TrainingAPI.Services
             };
 
             _context.Sets.Add(set);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return set;
                 
         }

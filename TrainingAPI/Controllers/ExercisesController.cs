@@ -51,10 +51,10 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             //var exercise = exercises.FirstOrDefault(e => e.Id == id); when using list in memory
-            var exercise = _exerciseService.GetById(id); // when using the database
+            var exercise = await _exerciseService.GetById(id); // when using the database
 
             if (exercise is null)
             {
@@ -65,7 +65,7 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateExercise([FromBody] CreateExerciseDto dto)
+        public async Task<IActionResult> CreateExercise([FromBody] CreateExerciseDto dto)
         {
             // When using the list in memory
             /*            int newId = exercises.Count == 0 ? 1 : exercises.Max(e => e.Id) + 1;
@@ -78,7 +78,7 @@ namespace TrainingAPI.Controllers
             //_context.SaveChanges();
          
 
-            var exerciseAdd = _exerciseService.CreateExercise(dto);
+            var exerciseAdd = await _exerciseService.CreateExercise(dto);
 
             if(exerciseAdd is null)
             {
@@ -89,10 +89,10 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateExercise(int id, [FromBody] Exercise updateExercises)
+        public async Task<IActionResult> UpdateExercise(int id, [FromBody] CreateExerciseDto updateExercises)
         {
 
-            var exercise = _exerciseService.UpdateExercise(id, updateExercises);
+            var exercise = await _exerciseService.UpdateExercise(id, updateExercises);
 
             if (exercise is null)
             {
@@ -113,9 +113,9 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteExercise(int id)
+        public async  Task<IActionResult> DeleteExercise(int id)
         {
-            var exercise = _exerciseService.DeleteExercise(id) ;
+            var exercise = await _exerciseService.DeleteExercise(id) ;
 
             if (exercise is null)
             {

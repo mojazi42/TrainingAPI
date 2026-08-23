@@ -33,14 +33,14 @@ namespace TrainingAPI.Services
         }
 
 
-        public ExerciseDetailDto? GetById(int Id)
+        public async Task<ExerciseDetailDto?> GetById(int Id)
         {
 
-            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == Id);
+            var exercise = await _context.Exercises.FirstOrDefaultAsync(e => e.Id == Id);
             if (exercise is null)
                 return null;
 
-            return new ExerciseDetailDto
+            return new  ExerciseDetailDto
             {
                 Id = exercise.Id,
                 Name = exercise.Name,
@@ -53,7 +53,7 @@ namespace TrainingAPI.Services
 
         
 
-        public ExerciseDetailDto? CreateExercise(CreateExerciseDto dto)
+        public async Task<ExerciseDetailDto?> CreateExercise(CreateExerciseDto dto)
         {
             var exercise = new Exercise
             {
@@ -74,27 +74,40 @@ namespace TrainingAPI.Services
             };
         }
 
-        public Exercise? UpdateExercise(int Id, Exercise exercise)
+        public async Task <ExerciseDetailDto?> UpdateExercise(int Id, CreateExerciseDto dto)
         {
 
-            var exerciseOld = _context.Exercises.FirstOrDefault(e => e.Id == Id);
+            var exerciseOld = await _context.Exercises.FirstOrDefaultAsync(e => e.Id == Id);
 
             if (exerciseOld is null)
             {
                 return null;
             }
+            
 
-            exerciseOld.Name = exercise.Name;
-            exerciseOld.MetricType = exercise.MetricType;
-            exerciseOld.RepsCount = exercise.RepsCount;
-            exerciseOld.DurationSeconds = exercise.DurationSeconds;
+            exerciseOld.Name = dto.Name;
+            exerciseOld.MetricType = dto.MetricType;
+            exerciseOld.RepsCount = dto.RepsCount;
+            exerciseOld.DurationSeconds = dto.DurationSeconds;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return exerciseOld;
+
+
+            return new ExerciseDetailDto
+            {
+                Id = exerciseOld.Id,
+                Name = exerciseOld.Name,
+                MetricType = exerciseOld.MetricType,
+                RepsCount = exerciseOld.RepsCount,
+                DurationSeconds = exerciseOld.DurationSeconds
+
+            };
+
+
         }
 
-        public Exercise? DeleteExercise(int Id)
+        public async Task <Exercise?> DeleteExercise(int Id)
         {
 
             var exercise = _context.Exercises.FirstOrDefault(e => e.Id == Id);

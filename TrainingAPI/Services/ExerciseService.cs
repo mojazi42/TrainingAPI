@@ -18,7 +18,9 @@ namespace TrainingAPI.Services
 
         }
 
+    
         public async Task<List<ExerciseDetailDto>> GetAll(){
+
             return await _context.Exercises
                 .Select(e => new ExerciseDetailDto
                 {

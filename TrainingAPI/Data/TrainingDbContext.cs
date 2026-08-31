@@ -16,6 +16,8 @@ namespace TrainingAPI.Data
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
 
         public DbSet<Set> Sets { get; set; }
+
+        public DbSet<User> Users{ get; set; }
         
         
     }

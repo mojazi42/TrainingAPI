@@ -26,6 +26,7 @@ namespace TrainingAPI.Controllers
             _trainingDb = trainingDb;
 
             _configuration = configuration;
+
         }
 
 

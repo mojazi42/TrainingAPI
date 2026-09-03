@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrainingAPI.Data;
 using TrainingAPI.DTOs;
@@ -7,6 +8,8 @@ using TrainingAPI.Services;
 
 namespace TrainingAPI.Controllers
 {
+
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExercisesController : ControllerBase

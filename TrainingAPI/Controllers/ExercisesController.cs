@@ -51,6 +51,7 @@ namespace TrainingAPI.Controllers
             var exercises = await _exerciseService.GetAll();// the way when using database
 
             return Ok(exercises);
+
         }
 
         [HttpGet("{id}")]
